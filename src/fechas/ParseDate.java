@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class ParseDate {
 
-    public static String yyyymmdd(String date) {
+    public static String format1(String date) {
         if (date != null && date.length() > 0) {
             try {
                 Date d = new SimpleDateFormat("dd-MM-yyyy").parse(date);
@@ -32,7 +32,7 @@ public class ParseDate {
         return date;
     }
 
-    public static String ddmmyyyy(String date) {
+    public static String format2(String date) {
         if (date != null && date.length() > 0) {
             try {
                 Date d = new SimpleDateFormat("yyyy-MM-dd").parse(date);
@@ -44,7 +44,7 @@ public class ParseDate {
         return date;
     }
 
-    public static String ddmmmyyyy(String date) {
+    public static String format3(String date) {
         if (date != null && date.length() > 0) {
             try {
                 Date d = new SimpleDateFormat("yyyy-MM-dd").parse(date);
@@ -56,9 +56,22 @@ public class ParseDate {
         return date;
     }
 
+    public static String format4(String date) {
+        if (date != null && date.length() > 0) {
+            try {
+                Date d = new SimpleDateFormat("dd-MMM-yyyy", new Locale("es")).parse(date);
+                return String.valueOf(new SimpleDateFormat("yyyy-MM-dd").format(d));
+            } catch (ParseException ex) {
+                Logger.getLogger(ParseDate.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return date;
+    }
+
     public static void main(String[] args) {
-        System.out.println(ParseDate.ddmmyyyy("1999-01-20"));
-        System.out.println(ParseDate.yyyymmdd("20-01-1999"));
-        System.out.println(ParseDate.ddmmmyyyy("1999-01-20"));
+        System.out.println(ParseDate.format1("20-01-2010"));
+        System.out.println(ParseDate.format2("2010-01-20"));
+        System.out.println(ParseDate.format3("2010-01-20"));
+        System.out.println(ParseDate.format4("20-ene-2010"));
     }
 }

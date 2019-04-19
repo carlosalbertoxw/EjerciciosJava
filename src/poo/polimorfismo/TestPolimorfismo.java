@@ -2,7 +2,7 @@ package poo.polimorfismo;
 
 /**
  * Polimorfismo: es cuando un mismo método tiene diferente comportamiento según
- * el objeto que se mande llamas
+ * el objeto que se mande llamar
  *
  * @author carlos
  *
@@ -10,10 +10,12 @@ package poo.polimorfismo;
 public class TestPolimorfismo {
 
     public static void main(String[] args) {
-        Perro p = new Perro();
-        p.alimentarse();
+        Animal a;
 
-        Vaca v = new Vaca();
-        v.alimentarse();
+        a = new Perro();
+        a.alimentarse();
+
+        a = new Vaca();
+        a.alimentarse();
     }
 }

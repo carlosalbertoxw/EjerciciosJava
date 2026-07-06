@@ -1,9 +1,22 @@
-#Archivos
+# Archivos
 *.orig
 
-#Carpetas
-nbproject/private/
-build/
-nbbuild/
-dist/
-nbdist/
+# Archivo generado por el ejercicio de archivos/EscribirEnArchivoDeTexto
+Texto.txt
+
+# Carpeta de salida generada por los ejercicios (imágenes, etc.)
+salida/
+
+# Maven
+target/
+
+# Eclipse
+.settings/
+.classpath
+.project
+bin/
+
+# IntelliJ / VS Code
+.idea/
+*.iml
+.vscode/

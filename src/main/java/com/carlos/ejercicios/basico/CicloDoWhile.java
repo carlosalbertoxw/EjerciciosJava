@@ -2,46 +2,24 @@ package com.carlos.ejercicios.basico;
 
 import java.util.Scanner;
 
-import javax.swing.JOptionPane;
-
 /**
- * En esta clase se muestra un sencillo ejemplo del ciclo doWhile
+ * Ciclo do-while: la condición se evalúa al final, así que el bloque se ejecuta
+ * al menos una vez.
  *
  * @author Carlos
  */
 public class CicloDoWhile {
 
-    /**
-     * método main
-     *
-     * @param args
-     */
     public static void main(String[] args) {
-        Integer y;
-        Integer x = 1;
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.println("Ingresa el número del cual se imprimirá la tabla de multiplicar");
+            int numero = scanner.nextInt();
 
-        // Utilizando JOptionPane
-        y = Integer
-                .parseInt(JOptionPane
-                        .showInputDialog("Ingrese el número del cual se \nimprimira la tabla de multiplicar"));
-        // ciclo doWhile
-        do {
-            JOptionPane.showMessageDialog(null, y + " x " + x + " = " + y * x);
-            x++;
-        } while (x <= 10);
-
-        Integer z = 1;
-
-        // Utilizando la consola
-        Scanner scanner = new Scanner(System.in);
-        System.out
-                .println("Ingrese el número del cual se \nimprimira la tabla de multiplicar");
-        y = scanner.nextInt();
-        scanner.close();
-        // ciclo doWhile
-        do {
-            System.out.println(y + " x " + z + " = " + y * z);
-            z++;
-        } while (z <= 10);
+            int multiplicador = 1;
+            do {
+                System.out.println(numero + " x " + multiplicador + " = " + numero * multiplicador);
+                multiplicador++;
+            } while (multiplicador <= 10);
+        }
     }
 }

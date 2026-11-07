@@ -1,181 +1,133 @@
 package com.carlos.ejercicios.estructurasdedatos.listas;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
+
 /**
- * Lista doblemente enlazada
+ * Lista doblemente enlazada: cada nodo conoce al anterior y al siguiente. Permite
+ * recorrerla en ambos sentidos y llegar a un índice desde el extremo más cercano.
  *
+ * @param <T> tipo de los datos que guarda
  * @author Carlos
  */
-public class ListaDoblementeEnlazada implements InterfazLista {
+public class ListaDoblementeEnlazada<T> extends ListaBase<T> {
 
-    private Nodo nodo;
+    private static class Nodo<T> {
 
-    /**
-     * Clase nodo de la lista doblemente enlazada
-     *
-     * @author Carlos
-     */
-    private class Nodo {
+        private final T dato;
+        private Nodo<T> siguiente;
+        private Nodo<T> anterior;
 
-        Object object;
-        Nodo siguiente;
-        Nodo anterior;
-
-        /**
-         * constructor de la clase nodo
-         */
-        private Nodo() {
-            siguiente = null;
-            anterior = null;
+        private Nodo(T dato) {
+            this.dato = dato;
         }
     }
 
-    /**
-     * Constructor de la clase ListaDoblementeEnlazada
-     */
-    public ListaDoblementeEnlazada() {
-        nodo = null;
+    private Nodo<T> primero;
+    private Nodo<T> ultimo;
+
+    @Override
+    public void insertar(T dato) {
+        Nodo<T> nuevo = new Nodo<>(dato);
+        if (estaVacia()) {
+            primero = nuevo;
+        } else {
+            nuevo.anterior = ultimo;
+            ultimo.siguiente = nuevo;
+        }
+        ultimo = nuevo;
+        longitud++;
     }
 
-    public boolean insertar(Object dato) {
-        Nodo nuevoNodo = new Nodo();
-        nuevoNodo.object = dato;
-        if (nodo == null) {
-            nodo = nuevoNodo;
-            if (nodo.object == dato && nodo.siguiente == null
-                    && nodo.anterior == null) {
-                return true;
-            } else {
-                return false;
+    private Nodo<T> nodoEn(int indice) {
+        Nodo<T> actual;
+        if (indice < longitud / 2) {
+            actual = primero;
+            for (int i = 0; i < indice; i++) {
+                actual = actual.siguiente;
             }
         } else {
-            Nodo nodo = this.nodo;
-            while (nodo.siguiente != null) {
-                nodo = nodo.siguiente;
-            }
-            nodo.siguiente = nuevoNodo;
-            nuevoNodo.anterior = nodo;
-            if (nodo.siguiente.object == dato
-                    && nodo.siguiente.siguiente == null
-                    && nodo.siguiente.anterior == nodo) {
-                return true;
-            } else {
-                return false;
+            actual = ultimo;
+            for (int i = longitud - 1; i > indice; i--) {
+                actual = actual.anterior;
             }
         }
+        return actual;
     }
 
-    public void test() {
-        Nodo nodo = this.nodo;
-        while (nodo != null) {
-            if (nodo.anterior == null && nodo.siguiente == null) {
-                System.out.println("ant " + "null" + " dato " + nodo.object
-                        + " sig " + "null");
-            } else if (nodo.anterior == null) {
-                System.out.println("ant " + "null" + " dato " + nodo.object
-                        + " sig " + nodo.siguiente.object);
-            } else if (nodo.siguiente == null) {
-                System.out.println("ant " + nodo.anterior.object + " dato "
-                        + nodo.object + " sig " + "null");
-            } else {
-                System.out.println("ant " + nodo.anterior.object + " dato "
-                        + nodo.object + " sig " + nodo.siguiente.object);
-            }
-            nodo = nodo.siguiente;
-        }
+    @Override
+    public T obtener(int indice) {
+        comprobarIndice(indice);
+        return nodoEn(indice).dato;
     }
 
-    public int longitud() {
-        int cant = 0;
-        Nodo nodo = this.nodo;
-        while (nodo != null) {
-            nodo = nodo.siguiente;
-            cant++;
-        }
-        return cant;
-    }
-
-    public boolean estaVacia() {
-        if (nodo == null) {
-            return true;
+    @Override
+    public T extraer(int indice) {
+        comprobarIndice(indice);
+        Nodo<T> extraido = nodoEn(indice);
+        if (extraido.anterior == null) {
+            primero = extraido.siguiente;
         } else {
-            return false;
+            extraido.anterior.siguiente = extraido.siguiente;
         }
-    }
-
-    public Object mostrarDatoDeIndice(int indice) {
-        if (indice >= 0 && indice < longitud()) {
-            Object dato;
-            if (indice == 0) {
-                dato = this.nodo.object;
-            } else {
-                Nodo nodo = this.nodo;
-                for (int i = 0; i <= indice - 1; i++) {
-                    nodo = nodo.siguiente;
-                }
-                dato = nodo.object;
-            }
-            return dato;
+        if (extraido.siguiente == null) {
+            ultimo = extraido.anterior;
         } else {
-            System.err.println("El indice ingresado no existe en esta lista");
-            return null;
+            extraido.siguiente.anterior = extraido.anterior;
         }
+        longitud--;
+        return extraido.dato;
     }
 
-    public Object extraerDatoDeIndice(int indice) {
-        if (indice < longitud() && indice >= 0) {
-            Object dato;
-            if (indice == 0) {
-                dato = nodo.object;
-                if (nodo.siguiente == null) {
-                    nodo = null;
-                } else {
-                    nodo = nodo.siguiente;
-                    nodo.anterior = null;
-                }
-            } else {
-                Nodo nodo = this.nodo;
-                for (int i = 0; i <= indice - 2; i++) {
-                    nodo = nodo.siguiente;
-                }
-                dato = nodo.siguiente.object;
-                nodo.siguiente = nodo.siguiente.siguiente;
-                if (nodo.siguiente != null) {
-                    nodo.siguiente.anterior = nodo;
-                }
+    /** Los datos del último al primero. */
+    public List<T> alReves() {
+        List<T> datos = new ArrayList<>(longitud);
+        for (Nodo<T> actual = ultimo; actual != null; actual = actual.anterior) {
+            datos.add(actual.dato);
+        }
+        return datos;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new Iterator<>() {
+            private Nodo<T> actual = primero;
+
+            @Override
+            public boolean hasNext() {
+                return actual != null;
             }
-            return dato;
-        } else {
-            System.err.println("El indice ingresado no existe en esta lista");
-            return null;
-        }
+
+            @Override
+            public T next() {
+                if (actual == null) {
+                    throw new NoSuchElementException();
+                }
+                T dato = actual.dato;
+                actual = actual.siguiente;
+                return dato;
+            }
+        };
     }
 
-    /**
-     * Método main
-     *
-     * @param args
-     */
     public static void main(String[] args) {
-        ListaDoblementeEnlazada lde = new ListaDoblementeEnlazada();
+        ListaDoblementeEnlazada<Integer> lista = new ListaDoblementeEnlazada<>();
         System.out.println("== Lista doblemente enlazada (cada nodo conoce al anterior y al siguiente) ==");
 
-        System.out.println("Insertando los valores 1..10");
-        for (int i = 0; i < 10; i++) {
-            lde.insertar(i + 1);
+        for (int i = 1; i <= 10; i++) {
+            lista.insertar(i);
         }
+        System.out.println("Contenido: " + lista);
+        System.out.println("Al revés : " + lista.alReves());
+        System.out.println("Longitud: " + lista.longitud());
+        System.out.println("Dato en índice 3: " + lista.obtener(3));
 
-        System.out.println("\nContenido (anterior | dato | siguiente):");
-        lde.test();
-
-        System.out.println("\nLongitud: " + lde.longitud());
-        System.out.println("¿Está vacía? " + lde.estaVacia());
-        System.out.println("Dato en índice 3: " + lde.mostrarDatoDeIndice(3));
-
-        System.out.print("\nExtrayendo desde el inicio: ");
-        while (!lde.estaVacia()) {
-            System.out.print(lde.extraerDatoDeIndice(0) + " ");
+        System.out.print("Extrayendo desde el inicio: ");
+        while (!lista.estaVacia()) {
+            System.out.print(lista.extraer(0) + " ");
         }
-        System.out.println("\n¿Está vacía ahora? " + lde.estaVacia()
-                + " | Longitud: " + lde.longitud());
+        System.out.println("\n¿Está vacía ahora? " + lista.estaVacia());
     }
 }

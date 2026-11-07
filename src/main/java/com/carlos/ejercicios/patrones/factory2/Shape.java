@@ -9,5 +9,5 @@ import java.awt.Graphics;
  * @author Carlos
  */
 public interface Shape {
-	public void draw(Graphics g);
+    public void draw(Graphics g);
 }

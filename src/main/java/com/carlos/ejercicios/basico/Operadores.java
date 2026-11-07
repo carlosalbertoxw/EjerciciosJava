@@ -8,11 +8,6 @@ package com.carlos.ejercicios.basico;
  */
 public class Operadores {
 
-    /**
-     * método main
-     *
-     * @param args
-     */
     public static void main(String[] args) {
         // Operadores aritméticos
         System.out.println("== Operadores aritméticos ==");

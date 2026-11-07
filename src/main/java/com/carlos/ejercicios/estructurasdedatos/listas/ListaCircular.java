@@ -1,165 +1,121 @@
 package com.carlos.ejercicios.estructurasdedatos.listas;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 /**
- * Lista circular de estructura de datos
+ * Lista circular: el último nodo apunta al primero. Basta con guardar el último para
+ * llegar a ambos extremos, y {@link #rotar()} avanza el inicio sin mover ningún dato,
+ * algo útil para repartir turnos.
  *
+ * @param <T> tipo de los datos que guarda
  * @author Carlos
  */
-public class ListaCircular implements InterfazLista {
+public class ListaCircular<T> extends ListaBase<T> {
 
-    private Nodo nodo;
+    private static class Nodo<T> {
 
-    /**
-     * Clase nodo de la lista circular
-     *
-     * @author Carlos
-     */
-    private class Nodo {
+        private final T dato;
+        private Nodo<T> siguiente;
 
-        Object object;
-        Nodo siguiente;
+        private Nodo(T dato) {
+            this.dato = dato;
+        }
     }
 
-    /**
-     * Constructor de la clase
-     */
-    public ListaCircular() {
-        nodo = null;
-    }
+    private Nodo<T> ultimo;
 
-    public boolean insertar(Object dato) {
-        Nodo nuevoNodo = new Nodo();
-        nuevoNodo.object = dato;
-        if (nodo == null) {
-            nodo = nuevoNodo;
-            nuevoNodo.siguiente = nodo;
-            if (nodo.object == dato && nodo.siguiente == nuevoNodo) {
-                return true;
-            } else {
-                return false;
-            }
+    @Override
+    public void insertar(T dato) {
+        Nodo<T> nuevo = new Nodo<>(dato);
+        if (estaVacia()) {
+            nuevo.siguiente = nuevo;
         } else {
-            Nodo nodo = this.nodo;
-            do {
-                nodo = nodo.siguiente;
-            } while (nodo.siguiente != this.nodo);
-            nodo.siguiente = nuevoNodo;
-            nuevoNodo.siguiente = this.nodo;
-            if (nodo.siguiente.object == dato
-                    && nodo.siguiente.siguiente == this.nodo) {
-                return true;
-            } else {
-                return false;
+            nuevo.siguiente = ultimo.siguiente;
+            ultimo.siguiente = nuevo;
+        }
+        ultimo = nuevo;
+        longitud++;
+    }
+
+    /** El primero pasa a ser el último: avanza un turno. */
+    public void rotar() {
+        if (!estaVacia()) {
+            ultimo = ultimo.siguiente;
+        }
+    }
+
+    private Nodo<T> nodoEn(int indice) {
+        Nodo<T> actual = ultimo.siguiente;
+        for (int i = 0; i < indice; i++) {
+            actual = actual.siguiente;
+        }
+        return actual;
+    }
+
+    @Override
+    public T obtener(int indice) {
+        comprobarIndice(indice);
+        return nodoEn(indice).dato;
+    }
+
+    @Override
+    public T extraer(int indice) {
+        comprobarIndice(indice);
+        Nodo<T> anterior = indice == 0 ? ultimo : nodoEn(indice - 1);
+        Nodo<T> extraido = anterior.siguiente;
+        anterior.siguiente = extraido.siguiente;
+        if (longitud == 1) {
+            ultimo = null;
+        } else if (extraido == ultimo) {
+            ultimo = anterior;
+        }
+        longitud--;
+        return extraido.dato;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new Iterator<>() {
+            private Nodo<T> actual = estaVacia() ? null : ultimo.siguiente;
+            private int restantes = longitud;
+
+            @Override
+            public boolean hasNext() {
+                return restantes > 0;
             }
-        }
-    }
 
-    public void test() {
-        if (nodo != null) {
-            Nodo nodo = this.nodo;
-            do {
-                System.out.println(nodo.object + " siguiente: "
-                        + nodo.siguiente.object);
-                nodo = nodo.siguiente;
-            } while (nodo != this.nodo);
-        }
-    }
-
-    public boolean estaVacia() {
-        if (nodo == null) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public int longitud() {
-        int cant = 0;
-        Nodo nodo = this.nodo;
-        if (nodo != null) {
-            do {
-                nodo = nodo.siguiente;
-                cant++;
-            } while (nodo != this.nodo);
-        }
-        return cant;
-    }
-
-    public Object mostrarDatoDeIndice(int indice) {
-        if (indice >= 0 && indice < longitud()) {
-            Object dato;
-            if (indice == 0) {
-                dato = nodo.object;
-            } else {
-                Nodo nodo = this.nodo;
-                for (int i = 0; i <= indice - 1; i++) {
-                    nodo = nodo.siguiente;
+            @Override
+            public T next() {
+                if (restantes == 0) {
+                    throw new NoSuchElementException();
                 }
-                dato = nodo.object;
+                T dato = actual.dato;
+                actual = actual.siguiente;
+                restantes--;
+                return dato;
             }
-            return dato;
-        } else {
-            System.err.println("El indice ingresado no existe en esta lista");
-            return null;
-        }
+        };
     }
 
-    public Object extraerDatoDeIndice(int indice) {
-        if (indice < longitud() && indice >= 0) {
-            Object dato;
-            if (indice == 0) {
-                dato = nodo.object;
-                if (nodo.siguiente != nodo) {
-                    Nodo nodo = this.nodo;
-                    do {
-                        nodo = nodo.siguiente;
-                    } while (nodo.siguiente != this.nodo);
-                    this.nodo = this.nodo.siguiente;
-                    nodo.siguiente = this.nodo;
-                } else {
-                    nodo = null;
-                }
-            } else {
-                Nodo nodo = this.nodo;
-                for (int i = 0; i <= indice - 2; i++) {
-                    nodo = nodo.siguiente;
-                }
-                dato = nodo.siguiente.object;
-                nodo.siguiente = nodo.siguiente.siguiente;
-            }
-            return dato;
-        } else {
-            System.err.println("El indice ingresado no existe en esta lista");
-            return null;
-        }
-    }
-
-    /**
-     * Método main
-     *
-     * @param args
-     */
     public static void main(String[] args) {
-        ListaCircular lc = new ListaCircular();
+        ListaCircular<String> turnos = new ListaCircular<>();
         System.out.println("== Lista circular (el último nodo apunta al primero) ==");
 
-        System.out.println("Insertando los valores 20..29");
-        for (int i = 0; i < 10; i++) {
-            lc.insertar(i + 20);
+        turnos.insertar("Ana");
+        turnos.insertar("Luis");
+        turnos.insertar("Marta");
+        System.out.println("Contenido: " + turnos);
+
+        for (int i = 1; i <= 4; i++) {
+            System.out.println("Turno " + i + ": " + turnos.obtener(0));
+            turnos.rotar();
         }
 
-        System.out.println("\nContenido (dato -> siguiente):");
-        lc.test();
-
-        System.out.println("\nLongitud: " + lc.longitud());
-        System.out.println("¿Está vacía? " + lc.estaVacia());
-        System.out.println("Dato en índice 3: " + lc.mostrarDatoDeIndice(3));
-
-        System.out.print("\nExtrayendo desde el inicio: ");
-        while (!lc.estaVacia()) {
-            System.out.print(lc.extraerDatoDeIndice(0) + " ");
+        System.out.print("Extrayendo desde el inicio: ");
+        while (!turnos.estaVacia()) {
+            System.out.print(turnos.extraer(0) + " ");
         }
-        System.out.println("\n¿Está vacía ahora? " + lc.estaVacia()
-                + " | Longitud: " + lc.longitud());
+        System.out.println("\n¿Está vacía ahora? " + turnos.estaVacia());
     }
 }

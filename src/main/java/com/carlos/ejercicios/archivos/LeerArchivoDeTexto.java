@@ -1,58 +1,47 @@
 package com.carlos.ejercicios.archivos;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.LinkedList;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
 
 /**
- * Contiene un método para leer archivos de texto
+ * Dos formas de leer un archivo de texto. Primero ejecuta
+ * {@link EscribirEnArchivoDeTexto} para crear el archivo de ejemplo.
  *
  * @author Carlos
  */
 public class LeerArchivoDeTexto {
 
-    /**
-     * Lee un archivo de texto
-     *
-     * @param nombreArchivo
-     * @return lista enlazada con las lineas del texto del archivo leído
-     */
-    public LinkedList<String> leerArchivoDeTexto(String nombreArchivo) {
-        LinkedList<String> texto = new LinkedList<String>();
-        try {
-            FileReader r = new FileReader(nombreArchivo);
-            BufferedReader buffer = new BufferedReader(r);
-
-            String temp = "";
-            while (temp != null) {
-                temp = buffer.readLine();
-                if (temp != null) {
-                    texto.add(temp);
-                }
-            }
-
-            buffer.close();
-            r.close();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return texto;
+    /** Lee todo el archivo de una vez: lo más simple si el archivo no es enorme. */
+    private static void leerCompleto(Path archivo) throws IOException {
+        List<String> lineas = Files.readAllLines(archivo);
+        lineas.forEach(System.out::println);
     }
 
     /**
-     * Método main
-     *
-     * @param args
+     * Lee línea por línea sin cargar todo en memoria. El try-with-resources cierra el
+     * archivo al terminar el bloque, incluso si ocurre un error.
      */
+    private static void leerPorLineas(Path archivo) throws IOException {
+        try (BufferedReader lector = Files.newBufferedReader(archivo)) {
+            String linea;
+            while ((linea = lector.readLine()) != null) {
+                System.out.println(linea);
+            }
+        }
+    }
+
     public static void main(String[] args) {
-        // Instancia de la clase
-        LeerArchivoDeTexto lat = new LeerArchivoDeTexto();
-        // Se manda llamar al método
-        LinkedList<String> texto = lat.leerArchivoDeTexto("Texto.txt");
-        // Se itera la lista enlazada retornada de la llamada del método
-        // anterior para imprimir en consola el contenido del archivo
-        while (texto.isEmpty() != true) {
-            System.out.println(texto.poll());
+        Path archivo = Path.of("Texto.txt");
+        try {
+            System.out.println("== Todo de una vez ==");
+            leerCompleto(archivo);
+            System.out.println("\n== Línea por línea ==");
+            leerPorLineas(archivo);
+        } catch (IOException e) {
+            System.err.println("No se pudo leer el archivo: " + e);
         }
     }
 }

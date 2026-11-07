@@ -1,139 +1,58 @@
 package com.carlos.ejercicios.estructurasdedatos.ordenamiento;
 
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Random;
 
 /**
- * En esta clase se muestra un sencillo ejemplo del algoritmo QuickSort<br>
- * QuickSort:<br>
- * Implementa la recursividad.<br>
- * Se basa en la tecnica de divide y venceras.<br>
- * Es uno de los mejores algoritmos que existen para ordenar datos.<br>
- * bibliografía: Técnicas de Diseño de Algoritmos en Java By Sonia Jaramillo
- * Valbuena, Sonia Jaramillo Valbuena, Sergio Augusto Cardona Torres, Maria Lili
- * Villegas Ramirez
+ * QuickSort aplica recursividad y "divide y vencerás": elige un pivote, deja a un
+ * lado los menores y al otro los mayores, y repite con cada parte. Es O(n log n)
+ * en promedio y de los algoritmos más usados en la práctica.
+ * <p>
+ * Bibliografía: Técnicas de Diseño de Algoritmos en Java, de Sonia Jaramillo
+ * Valbuena, Sergio Augusto Cardona Torres y Maria Lili Villegas Ramirez.
  *
  * @author Carlos
  */
 public class QuickSort {
 
-    /**
-     * Ordena de menor a mayor los elementos de la matriz ingresada
-     *
-     * @param matriz
-     * @return la matriz ordenada
-     */
-    public int[] quicksort(int[] matriz) {
-        matriz = quicksort(matriz, 0, matriz.length - 1);
-        return matriz;
+    /** Ordena de menor a mayor el arreglo recibido, modificándolo. */
+    public static void ordenar(int[] arreglo) {
+        if (arreglo.length > 1) {
+            ordenar(arreglo, 0, arreglo.length - 1);
+        }
     }
 
-    /**
-     * Ordena de menor a mayor los elementos de la matriz ingresada
-     *
-     * @param matriz
-     * @param limiteInferior
-     * @param limiteSuperior
-     * @return la matriz ordenada
-     */
-    public int[] quicksort(int[] matriz, int limiteInferior, int limiteSuperior) {
-        int i = limiteInferior;
-        int j = limiteSuperior;
-        int pivote = matriz[(limiteInferior + limiteSuperior) / 2];
-        do {
-            while (matriz[i] < pivote) {
+    private static void ordenar(int[] arreglo, int inferior, int superior) {
+        int i = inferior;
+        int j = superior;
+        int pivote = arreglo[inferior + (superior - inferior) / 2];
+        while (i <= j) {
+            while (arreglo[i] < pivote) {
                 i++;
             }
-            while (matriz[j] > pivote) {
+            while (arreglo[j] > pivote) {
                 j--;
             }
             if (i <= j) {
-                int aux = matriz[i];
-                matriz[i] = matriz[j];
-                matriz[j] = aux;
+                int temporal = arreglo[i];
+                arreglo[i] = arreglo[j];
+                arreglo[j] = temporal;
                 i++;
                 j--;
             }
-        } while (i <= j);
-        if (j > limiteInferior) {
-            quicksort(matriz, limiteInferior, j);
         }
-        if (i < limiteSuperior) {
-            quicksort(matriz, i, limiteSuperior);
+        if (j > inferior) {
+            ordenar(arreglo, inferior, j);
         }
-        return matriz;
+        if (i < superior) {
+            ordenar(arreglo, i, superior);
+        }
     }
 
-    /**
-     * Ordena de menor a mayor los elementos de la lista ingresada
-     *
-     * @param lista
-     * @return la lista ordenada
-     */
-    public LinkedList<Integer> quicksort(LinkedList<Integer> lista) {
-        lista = quicksort(lista, 0, lista.size() - 1);
-        return lista;
-    }
-
-    /**
-     * Ordena de menor a mayor los elementos de la lista ingresada
-     *
-     * @param lista
-     * @param limiteInferior
-     * @param limiteSuperior
-     * @return la lista ordenada
-     */
-    public LinkedList<Integer> quicksort(LinkedList<Integer> lista,
-            int limiteInferior, int limiteSuperior) {
-        int i = limiteInferior;
-        int j = limiteSuperior;
-        int pivote = lista.get((limiteInferior + limiteSuperior) / 2);
-        do {
-            while (lista.get(i) < pivote) {
-                i++;
-            }
-            while (lista.get(j) > pivote) {
-                j--;
-            }
-            if (i <= j) {
-                int aux = lista.get(i);
-                lista.set(i, lista.get(j));
-                lista.set(j, aux);
-                i++;
-                j--;
-            }
-        } while (i <= j);
-        if (j > limiteInferior) {
-            quicksort(lista, limiteInferior, j);
-        }
-        if (i < limiteSuperior) {
-            quicksort(lista, i, limiteSuperior);
-        }
-        return lista;
-    }
-
-    /**
-     * Método main
-     *
-     * @param args
-     */
     public static void main(String[] args) {
-        QuickSort q = new QuickSort();
-        System.out.println("== Quick Sort ==");
-
-        // Ejemplo con un arreglo de enteros
         int[] arreglo = {5, 1, 4, 2, 8, 0, 3};
+        System.out.println("== Quick Sort ==");
         System.out.println("Arreglo original: " + Arrays.toString(arreglo));
-        System.out.println("Arreglo ordenado: " + Arrays.toString(q.quicksort(arreglo)));
-
-        // Ejemplo con una lista de 10 valores aleatorios (0-99)
-        Random r = new Random();
-        LinkedList<Integer> lista = new LinkedList<Integer>();
-        for (int i = 0; i < 10; i++) {
-            lista.add(r.nextInt(100));
-        }
-        System.out.println("\nLista original: " + lista);
-        System.out.println("Lista ordenada: " + q.quicksort(lista));
+        ordenar(arreglo);
+        System.out.println("Arreglo ordenado: " + Arrays.toString(arreglo));
     }
 }

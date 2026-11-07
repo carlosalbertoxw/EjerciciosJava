@@ -1,51 +1,24 @@
 package com.carlos.ejercicios.archivos;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
- * Contiene un método que crea y escribe en un archivo de texto (Si el archivo
- * ya existe lo sobrescribe)
+ * Crea un archivo de texto y escribe en él; si ya existe, lo sobrescribe.
+ * {@link Files#writeString} abre, escribe y cierra el archivo en una sola llamada.
  *
  * @author Carlos
  */
 public class EscribirEnArchivoDeTexto {
 
-    /**
-     * Crea y escribe en un archivo de texto (Si el archivo ya existe lo
-     * sobrescribe)
-     *
-     * @param nameFile ruta/nombre del archivo a crear
-     * @param texto    contenido que se escribirá en el archivo
-     */
-    public void escribirEnArchivoDeTexto(String nameFile, String texto) {
-        try {
-            FileWriter fw = new FileWriter(nameFile);
-            BufferedWriter bw = new BufferedWriter(fw);
-            PrintWriter pw = new PrintWriter(bw);
-
-            pw.append(texto);
-
-            pw.close();
-            bw.close();
-            fw.close();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    /**
-     * Método main
-     *
-     * @param args
-     */
     public static void main(String[] args) {
-        //
-        EscribirEnArchivoDeTexto e = new EscribirEnArchivoDeTexto();
-        //
-        e.escribirEnArchivoDeTexto("Texto.txt",
-                "Hola mundo\nEste es un salto de linea");
+        Path archivo = Path.of("Texto.txt");
+        try {
+            Files.writeString(archivo, "Hola mundo\nEste es un salto de línea\n");
+            System.out.println("Archivo escrito en: " + archivo.toAbsolutePath());
+        } catch (IOException e) {
+            System.err.println("No se pudo escribir el archivo: " + e.getMessage());
+        }
     }
 }

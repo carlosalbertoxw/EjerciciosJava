@@ -7,8 +7,8 @@ package com.carlos.ejercicios.patrones.factory;
  */
 public class Square implements Shape {
 
-	@Override
-	public void draw() {
-		System.out.println("Dibujando un cuadrado");
-	}
+    @Override
+    public void draw() {
+        System.out.println("Dibujando un cuadrado");
+    }
 }

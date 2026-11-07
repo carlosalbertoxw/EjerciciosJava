@@ -13,24 +13,44 @@
     <description>Colección de ejercicios de programación en Java, clasificados por tema y
         ordenados de lo más básico a lo más avanzado.</description>
 
+    <licenses>
+        <license>
+            <name>MIT</name>
+        </license>
+    </licenses>
+
     <properties>
-        <maven.compiler.release>21</maven.compiler.release>
+        <maven.compiler.release>25</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>6.1.3</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
+                <version>3.16.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.6.1</version>
             </plugin>
             <!-- Permite ejecutar cualquier ejercicio:
-                 mvn exec:java -Dexec.mainClass=com.carlos.ejercicios.basico.HolaMundo -->
+                 ./mvnw exec:java -Dexec.mainClass=com.carlos.ejercicios.basico.HolaMundo -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>3.5.0</version>
+                <version>3.6.4</version>
             </plugin>
         </plugins>
     </build>

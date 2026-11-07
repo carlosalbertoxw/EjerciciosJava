@@ -24,7 +24,7 @@ public class ModificadoresDeAcceso {
      * 4 - private: solo se puede acceder al elemento desde la misma clase<br>
      */
     /**
-     * variable publica
+     * variable pública
      */
     public String nombre;
 
@@ -44,7 +44,7 @@ public class ModificadoresDeAcceso {
     private String apellido;
 
     /**
-     * constructor publico
+     * constructor público
      */
     public ModificadoresDeAcceso() {
 
@@ -72,38 +72,33 @@ public class ModificadoresDeAcceso {
     }
 
     /**
-     * metodo publico
+     * método público
      */
     public void publicImprimeDatos() {
         System.out.println("  -> método public: accesible desde cualquier clase");
     }
 
     /**
-     * metodo protegido
+     * método protegido
      */
     protected void protectedImprimeDatos() {
         System.out.println("  -> método protected: accesible desde el paquete y subclases");
     }
 
     /**
-     * metodo default
+     * método default
      */
     void defaultImprimeDatos() {
         System.out.println("  -> método default: accesible desde el mismo paquete");
     }
 
     /**
-     * metodo privado
+     * método privado
      */
     private void privateImprimeDatos() {
         System.out.println("  -> método private: accesible solo desde esta clase");
     }
 
-    /**
-     * método main
-     *
-     * @param args
-     */
     public static void main(String[] args) {
         System.out.println("== Modificadores de acceso en Java ==");
         System.out.println("public    : misma clase, mismo paquete, subclases y otras clases (cualquier lugar)");
@@ -132,7 +127,7 @@ public class ModificadoresDeAcceso {
     }
 
     /**
-     * clase publica
+     * clase pública
      */
     public class ClasePublica {
 

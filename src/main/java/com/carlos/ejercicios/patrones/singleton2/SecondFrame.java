@@ -6,27 +6,28 @@ import javax.swing.JFrame;
 
 /**
  * Ventana secundaria con instancia única (patrón Singleton): siempre se obtiene
- * la misma mediante {@link #getInstance()}.
+ * la misma mediante {@link #getInstance()}. Una clase que hereda de JFrame no puede
+ * ser un enum; aquí la forma clásica es segura porque Swing solo la usa desde su
+ * hilo de eventos.
  *
  * @author Carlos
  */
 public class SecondFrame extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-	private static SecondFrame frame;
+    private static final long serialVersionUID = 1L;
+    private static SecondFrame frame;
 
-	private SecondFrame() {
-		setSize(200, 200);
-		getContentPane().setBackground(Color.GREEN);
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setLocationRelativeTo(null);
-	}
+    private SecondFrame() {
+        setSize(200, 200);
+        getContentPane().setBackground(Color.GREEN);
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        setLocationRelativeTo(null);
+    }
 
-	public static SecondFrame getInstance() {
-		if (frame == null) {
-			frame = new SecondFrame();
-		}
-		return frame;
-	}
-
+    public static SecondFrame getInstance() {
+        if (frame == null) {
+            frame = new SecondFrame();
+        }
+        return frame;
+    }
 }

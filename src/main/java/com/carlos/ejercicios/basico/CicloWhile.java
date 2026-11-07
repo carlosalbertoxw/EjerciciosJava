@@ -2,48 +2,24 @@ package com.carlos.ejercicios.basico;
 
 import java.util.Scanner;
 
-import javax.swing.JOptionPane;
-
 /**
- * En esta clase se muestra un sencillo ejemplo del ciclo while
+ * Ciclo while: repite el bloque mientras la condición sea verdadera. La condición
+ * se evalúa antes de cada vuelta.
  *
  * @author Carlos
  */
 public class CicloWhile {
 
-    /**
-     * método main
-     *
-     * @param args
-     */
     public static void main(String[] args) {
-        Integer y;
-        Integer x = 1;
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.println("Ingresa el número del cual se imprimirá la tabla de multiplicar");
+            int numero = scanner.nextInt();
 
-        // Utilizando JOptionPane
-        y = Integer
-                .parseInt(JOptionPane
-                        .showInputDialog("Ingrese el número del cual se \nimprimira la tabla de multiplicar"));
-        // ciclo while
-        while (x <= 10) {
-            JOptionPane.showMessageDialog(null, y + " x " + x + " = " + y * x);
-            x++;
+            int multiplicador = 1;
+            while (multiplicador <= 10) {
+                System.out.println(numero + " x " + multiplicador + " = " + numero * multiplicador);
+                multiplicador++;
+            }
         }
-        ;
-
-        Integer z = 1;
-
-        // Utilizando la consola
-        Scanner scanner = new Scanner(System.in);
-        System.out
-                .println("Ingrese el número del cual se \nimprimira la tabla de multiplicar");
-        y = scanner.nextInt();
-        scanner.close();
-        // ciclo while
-        while (z <= 10) {
-            System.out.println(y + " x " + z + " = " + y * z);
-            z++;
-        }
-        ;
     }
 }

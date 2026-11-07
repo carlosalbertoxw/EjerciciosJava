@@ -1,24 +1,19 @@
 package com.carlos.ejercicios.patrones.singleton;
 
 /**
- * Implementación clásica del patrón Singleton: garantiza una única instancia por
- * JVM mediante un constructor privado y {@link #getInstance()}.
+ * Patrón Singleton con un enum: la JVM garantiza una única instancia, incluso con
+ * varios hilos. La versión clásica con {@code if (instancia == null)} no es segura:
+ * dos hilos podrían crear cada uno la suya.
  *
  * @author Carlos
  */
-public class Singleton {
+public enum Singleton {
 
-	private static Singleton singleton;
+    INSTANCIA;
 
-	private Singleton() {
+    private int visitas;
 
-	}
-
-	public static Singleton getInstance() {
-		if (singleton == null) {
-			singleton = new Singleton();
-		}
-		return singleton;
-
-	}
+    public synchronized int registrarVisita() {
+        return ++visitas;
+    }
 }

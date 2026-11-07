@@ -8,77 +8,58 @@ import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 /**
- * En esta clase se muestra como imprimir mensajes, ingresar datos e imprimir
- * los datos ingresados de diferentes maneras
+ * Tres formas de pedir datos al usuario: {@link Scanner}, {@link BufferedReader}
+ * y los diálogos gráficos de {@link JOptionPane}. Este es el único ejercicio que
+ * usa diálogos, que requieren un entorno con escritorio.
+ * <p>
+ * No se cierra {@code System.in}: cerrarlo impediría volver a leer de la consola
+ * durante el resto del programa.
  *
  * @author Carlos
  */
 public class IngresarImprimirDatos {
 
-    /**
-     * Permite ingresar un nombre y una edad y los imprime utilizando
-     * JOptionPane
-     */
-    public void IOConJOptionPane() {
-        String name;
-        int edad;
-        //
-        name = JOptionPane.showInputDialog("Ingresa tu nombre");
-        edad = Integer.parseInt(JOptionPane.showInputDialog("Ingresa tu edad"));
-        JOptionPane.showMessageDialog(null, "Hola. Tu nombre es: " + name
-                + " y tienes " + edad + " años");
+    private static void saludar(String nombre, int edad) {
+        System.out.println("Hola. Tu nombre es: " + nombre + " y tienes " + edad + " años");
     }
 
-    /**
-     * Permite ingresar un nombre y una edad y los imprime utilizando la clase
-     * Scanner
-     */
-    public void IOConScanner() {
-        String name = "";
-        int edad = 0;
-
-        // Utilizando la clase Scanner
-        Scanner scanner = new Scanner(System.in);
+    /** Scanner: la forma más cómoda de leer de la consola. */
+    private static void conScanner(Scanner scanner) {
         System.out.println("Ingresa tu nombre");
-        name = scanner.next();
+        String nombre = scanner.nextLine();
         System.out.println("Ingresa tu edad");
-        edad = Integer.parseInt(scanner.next());
-        scanner.close();
-        System.out.println("Hola. Tu nombre es: " + name + " y tienes " + edad
-                + " años");
+        int edad = Integer.parseInt(scanner.nextLine());
+        saludar(nombre, edad);
     }
 
-    /**
-     * Permite ingresar un nombre y una edad y los imprime utilizando
-     * InputStreamReader y BufferedReader
-     */
-    public void IOConSRyBR() {
-        String name = "";
-        int edad = 0;
-        //
-        InputStreamReader sr = new InputStreamReader(System.in);
-        BufferedReader br = new BufferedReader(sr);
-        try {
-            System.out.println("Ingresa tu nombre");
-            name = br.readLine();
-            System.out.println("Ingresa tu edad");
-            edad = Integer.parseInt(br.readLine());
-            br.close();
-            sr.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+    /** BufferedReader: lee línea por línea y obliga a manejar IOException. */
+    private static void conBufferedReader() throws IOException {
+        BufferedReader lector = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Ingresa tu nombre");
+        String nombre = lector.readLine();
+        System.out.println("Ingresa tu edad");
+        int edad = Integer.parseInt(lector.readLine());
+        saludar(nombre, edad);
+    }
+
+    /** JOptionPane: pide y muestra los datos con ventanas de diálogo. */
+    private static void conDialogos() {
+        String nombre = JOptionPane.showInputDialog("Ingresa tu nombre");
+        int edad = Integer.parseInt(JOptionPane.showInputDialog("Ingresa tu edad"));
+        JOptionPane.showMessageDialog(null,
+                "Hola. Tu nombre es: " + nombre + " y tienes " + edad + " años");
+    }
+
+    public static void main(String[] args) throws IOException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("¿Cómo quieres ingresar los datos?");
+        System.out.println("1. Scanner   2. BufferedReader   3. Diálogos (JOptionPane)");
+
+        switch (scanner.nextLine().trim()) {
+            case "1" -> conScanner(scanner);
+            case "2" -> conBufferedReader();
+            case "3" -> conDialogos();
+            default -> System.out.println("Opción no válida");
         }
-        System.out.println("Hola. Tu nombre es: " + name + " y tienes " + edad
-                + " años");
-    }
-
-    /**
-     * método main
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        IngresarImprimirDatos datos = new IngresarImprimirDatos();
-        datos.IOConSRyBR();
     }
 }

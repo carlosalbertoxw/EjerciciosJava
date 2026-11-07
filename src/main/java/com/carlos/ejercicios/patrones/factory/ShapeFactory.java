@@ -8,15 +8,15 @@ package com.carlos.ejercicios.patrones.factory;
  */
 public class ShapeFactory {
 
-	public Shape getShape(String shapeType) {
-		if (shapeType.equalsIgnoreCase("CIRCULO")) {
-			return new Circle();
-		} else if (shapeType.equalsIgnoreCase("RECTANGULO")) {
-			return new Rectangle();
-		} else if (shapeType.equalsIgnoreCase("CUADRADO")) {
-			return new Square();
-		} else {
-			return null;
-		}
-	}
+    /**
+     * @throws IllegalArgumentException si el tipo de forma no existe
+     */
+    public Shape getShape(String tipo) {
+        return switch (tipo.toUpperCase()) {
+            case "CIRCULO" -> new Circle();
+            case "RECTANGULO" -> new Rectangle();
+            case "CUADRADO" -> new Square();
+            default -> throw new IllegalArgumentException("Forma no disponible: " + tipo);
+        };
+    }
 }

@@ -5,30 +5,24 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Muestra sencillos ejemplos de la implementación de listas de la api de java
+ * Ejemplos de las listas de la API de Java. Para ver cuándo conviene cada una,
+ * revisa {@link ComparativaListas}.
  *
  * @author Carlos
  */
 public class ListasApiJava {
 
-    /**
-     * Método main
-     *
-     * @param args
-     */
     public static void main(String[] args) {
-        ListasApiJava laj = new ListasApiJava();
-        laj.listaSimple();
-        laj.listaEnlazada();
+        listaSimple();
+        listaEnlazada();
+        listaInmutable();
     }
 
-    /**
-     * ArrayList: lista respaldada por un arreglo, ideal para acceso por índice.
-     */
-    private void listaSimple() {
+    /** ArrayList: lista respaldada por un arreglo, ideal para acceso por índice. */
+    private static void listaSimple() {
         System.out.println("== ArrayList (acceso aleatorio por índice) ==");
 
-        List<String> lenguajes = new ArrayList<String>();
+        List<String> lenguajes = new ArrayList<>();
         lenguajes.add("Java");
         lenguajes.add("Python");
         lenguajes.add("C++");
@@ -43,14 +37,11 @@ public class ListasApiJava {
         System.out.println("Tras eliminar 'C++': " + lenguajes);
     }
 
-    /**
-     * LinkedList: lista doblemente enlazada, eficiente para insertar/eliminar en
-     * los extremos.
-     */
-    private void listaEnlazada() {
+    /** LinkedList: lista doblemente enlazada, eficiente para insertar/eliminar en los extremos. */
+    private static void listaEnlazada() {
         System.out.println("\n== LinkedList (inserción/eliminación en extremos) ==");
 
-        LinkedList<Integer> numeros = new LinkedList<Integer>();
+        LinkedList<Integer> numeros = new LinkedList<>();
         numeros.add(20);
         numeros.add(30);
         numeros.addFirst(10); // inserta al inicio
@@ -61,5 +52,18 @@ public class ListasApiJava {
 
         numeros.removeFirst();
         System.out.println("Tras removeFirst(): " + numeros);
+    }
+
+    /** List.of crea una lista inmutable: intentar modificarla lanza una excepción. */
+    private static void listaInmutable() {
+        System.out.println("\n== List.of (inmutable) ==");
+
+        List<String> colores = List.of("rojo", "verde", "azul");
+        System.out.println("Lista: " + colores);
+        try {
+            colores.add("negro");
+        } catch (UnsupportedOperationException e) {
+            System.out.println("No se puede modificar una lista creada con List.of");
+        }
     }
 }

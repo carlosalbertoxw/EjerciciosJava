@@ -2,41 +2,21 @@ package com.carlos.ejercicios.basico;
 
 import java.util.Scanner;
 
-import javax.swing.JOptionPane;
-
 /**
- * En esta clase se muestra un sencillo ejemplo del ciclo for
+ * Ciclo for: se usa cuando se conoce de antemano cuántas vueltas dará.
  *
  * @author Carlos
  */
 public class CicloFor {
 
-    /**
-     * método main
-     *
-     * @param args
-     */
     public static void main(String[] args) {
-        Integer y;
+        try (Scanner scanner = new Scanner(System.in)) {
+            System.out.println("Ingresa el número del cual se imprimirá la tabla de multiplicar");
+            int numero = scanner.nextInt();
 
-        // Utilizando JOptionPane
-        y = Integer
-                .parseInt(JOptionPane
-                        .showInputDialog("Ingrese el número del cual se \nimprimira la tabla de multiplicar"));
-        // ciclo for
-        for (Integer x = 0; x <= 10; x++) {
-            JOptionPane.showMessageDialog(null, y + " x " + x + " = " + y * x);
-        }
-
-        // Utilizando la consola
-        Scanner scanner = new Scanner(System.in);
-        System.out
-                .println("Ingrese el número del cual se \nimprimira la tabla de multiplicar");
-        y = scanner.nextInt();
-        scanner.close();
-        // ciclo for
-        for (Integer z = 0; z <= 10; z++) {
-            System.out.println(y + " x " + z + " = " + y * z);
+            for (int multiplicador = 1; multiplicador <= 10; multiplicador++) {
+                System.out.println(numero + " x " + multiplicador + " = " + numero * multiplicador);
+            }
         }
     }
 }

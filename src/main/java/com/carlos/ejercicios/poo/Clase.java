@@ -1,32 +1,29 @@
 package com.carlos.ejercicios.poo;
 
-import javax.swing.JOptionPane;
-
 /**
- * Esta clase muestra la estructura de una clase en java
+ * Muestra las partes de una clase en Java: atributos, constructor y métodos. El
+ * método {@code main} es opcional: solo lo necesita la clase por la que empieza la
+ * ejecución.
  *
  * @author Carlos
  */
 public class Clase {
 
-    // La estructura de una clase en java consta de cuatro partes
-    // 1 - Atributos o variables de la clase
-    private String nombre;
+    // 1 - Atributos: los datos que guarda cada objeto
+    private final String nombre;
 
-    // 2 - El constructor (sirve para inicializar variables o componentes para
-    // la correcta ejecución de la clase)
-    public Clase() {
-        nombre = JOptionPane.showInputDialog("Por favor escribe tu nombre");
-        imprimeNombre(nombre);
+    // 2 - Constructor: deja el objeto listo para usarse
+    public Clase(String nombre) {
+        this.nombre = nombre;
     }
 
-    // 3 - El metodo main (opcional, solo si es la primera clase que se ejecuta)
+    // 3 - Métodos: lo que el objeto sabe hacer
+    public String saludar() {
+        return "Hola, mi nombre es " + nombre;
+    }
+
     public static void main(String[] args) {
-        new Clase();
-    }
-
-    // 4 - Metodos o funciones de la clase
-    public void imprimeNombre(String nombre) {
-        JOptionPane.showMessageDialog(null, "Tu nombre es: " + nombre);
+        Clase objeto = new Clase("Carlos");
+        System.out.println(objeto.saludar());
     }
 }

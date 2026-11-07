@@ -1,24 +1,22 @@
 package com.carlos.ejercicios.basico;
 
-import javax.swing.JOptionPane;
-
 /**
- * En esta clase se muestra como imprimir mensajes
+ * El primer programa: imprimir un mensaje en la consola.
+ * <p>
+ * Desde Java 25, {@code main} ya no necesita ser {@code public static} ni recibir
+ * {@code String[] args}, y la clase {@code IO} simplifica la salida. La forma
+ * clásica, que verás en casi todo el código existente, es:
+ * <pre>
+ * public static void main(String[] args) {
+ *     System.out.println("Hola Mundo :)");
+ * }
+ * </pre>
  *
  * @author Carlos
  */
 public class HolaMundo {
 
-    /**
-     * método main
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        // Utilizando JOptionPane
-        JOptionPane.showMessageDialog(null, "Hola Mundo :)");
-
-        // Utilizando la consola
-        System.out.print("Hola Mundo :)");
+    void main() {
+        IO.println("Hola Mundo :)");
     }
 }

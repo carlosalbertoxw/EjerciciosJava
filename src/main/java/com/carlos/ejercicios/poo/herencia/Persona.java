@@ -1,101 +1,49 @@
 package com.carlos.ejercicios.poo.herencia;
 
 /**
- * Esta clase forma parte de un sencillo ejemplo de herencia en java orientado a
- * objetos
+ * Clase base del ejemplo de herencia. Sus atributos son privados y se accede a ellos
+ * con métodos get y set (encapsulamiento).
  *
  * @author Carlos
  */
 public class Persona {
 
-    private long cve;
     private String nombre;
     private String apellido;
-    private String edad;
-    private String sexo;
+    private int edad;
 
-    /**
-     *
-     * @return el valor de la variable cve
-     */
-    public long getCve() {
-        return cve;
+    public Persona(String nombre, String apellido, int edad) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.edad = edad;
     }
 
-    /**
-     * Establece un valor a la variable cve
-     *
-     * @param cve
-     */
-    public void setCve(long cve) {
-        this.cve = cve;
-    }
-
-    /**
-     *
-     * @return el valor de la variable nombre
-     */
     public String getNombre() {
         return nombre;
     }
 
-    /**
-     * Establece un valor a la variable nombre
-     *
-     * @param nombre
-     */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
-    /**
-     *
-     * @return el valor de la variable apellido
-     */
     public String getApellido() {
         return apellido;
     }
 
-    /**
-     * Establece un valor a la variable apellido
-     *
-     * @param apellido
-     */
     public void setApellido(String apellido) {
         this.apellido = apellido;
     }
 
-    /**
-     *
-     * @return el valor de la variable edad
-     */
-    public String getEdad() {
+    public int getEdad() {
         return edad;
     }
 
-    /**
-     * Establece un valor a la variable edad
-     *
-     * @param edad
-     */
-    public void setEdad(String edad) {
+    public void setEdad(int edad) {
         this.edad = edad;
     }
 
-    /**
-     *
-     * @return el valor de la variable sexo
-     */
-    public String getSexo() {
-        return sexo;
-    }
-
-    /**
-     * Establece un valor a la variable sexo
-     *
-     * @param sexo
-     */
-    public void setSexo(String sexo) {
-        this.sexo = sexo;
+    @Override
+    public String toString() {
+        return nombre + " " + apellido + ", " + edad + " años";
     }
 }

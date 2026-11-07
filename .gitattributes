@@ -1,0 +1,6 @@
+* text=auto
+*.jpg binary
+*.png binary
+# El script de Maven Wrapper debe conservar sus finales de línea en cada sistema
+mvnw text eol=lf
+*.cmd text eol=crlf

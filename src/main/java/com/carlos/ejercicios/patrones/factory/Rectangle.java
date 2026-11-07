@@ -7,8 +7,8 @@ package com.carlos.ejercicios.patrones.factory;
  */
 public class Rectangle implements Shape {
 
-	@Override
-	public void draw() {
-		System.out.println("Dibujando un rectangulo");
-	}
+    @Override
+    public void draw() {
+        System.out.println("Dibujando un rectángulo");
+    }
 }

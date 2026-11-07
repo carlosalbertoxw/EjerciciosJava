@@ -7,5 +7,5 @@ package com.carlos.ejercicios.patrones.factory;
  * @author Carlos
  */
 public interface Shape {
-	public void draw();
+    public void draw();
 }
